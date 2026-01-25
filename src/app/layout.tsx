@@ -3,15 +3,8 @@
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { trpc } from "@/utils/trpc";
-import { httpBatchLink } from "@trpc/client";
-
-/**
- * FILE PURPOSE: The Application Wrapper
- *
- * In Next.js App Router, 'layout.tsx' wraps your entire application.
- * This is where we need to inject the tRPC and React Query providers so that
- * any component inside your app can use the 'trpc' hooks.
- */
+import { createTRPCClient, httpBatchLink } from "@trpc/client";
+import type { AppRouter } from "@/server";
 
 export default function RootLayout({
     children,
@@ -19,13 +12,10 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     // 1. Initialize State
-    // We use useState to ensure the client is only created once per application lifecycle
     const [queryClient] = useState(() => new QueryClient());
     const [trpcClient] = useState(() =>
-        trpc.createClient({
+        createTRPCClient<AppRouter>({
             links: [
-                //TODO: Figure out url handling on real projects
-                //NOTE: it can resolve on its own as a relative path, we'll try it
                 httpBatchLink({
                     url: "http://localhost:3000/api/trpc",
                 }),

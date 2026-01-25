@@ -3,44 +3,14 @@
 import { trpc } from "@/utils/trpc";
 import { useState } from "react";
 
-/**
- * FILE PURPOSE: The Page (usage example)
- *
- * This shows how you consume the API you built in 'src/server/routers/album.ts'.
- * NOTICE: You import 'trpc' hooks, NOT 'fetch' or 'axios'!
- */
-
 export default function Home() {
-    // 1. Reading Data (Equivalent to GET)
-    // The type of 'albums' is automatically inferred from your server code!
-    // If you add a field to the server return, it appears here instantly.
-
+    // 1. Reading Data
     const { data: albums, isLoading } = trpc.album.list.useQuery();
 
-    // 2. Writing Data (Equivalent to POST)
+    // 2. Writing Data
     const createMutation = trpc.album.create.useMutation({
         onSuccess: () => {
-            // Typically you would invalidate the query here to refresh the list
-            // utils.album.list.invalidate();
             alert("Album Created!");
-        },
-    });
-
-    // 3. Updating Data (Equivalent to PUT)
-    const updateMutation = trpc.album.update.useMutation({
-        onSuccess: () => {
-            // Typically you would invalidate the query here to refresh the list
-            // utils.album.list.invalidate();
-            alert("Album Updated!");
-        },
-    });
-
-    // 4. Deleting Data (Equivalent to DELETE)
-    const deleteMutation = trpc.album.delete.useMutation({
-        onSuccess: () => {
-            // Typically you would invalidate the query here to refresh the list
-            // utils.album.list.invalidate();
-            alert("Album Deleted!");
         },
     });
 
