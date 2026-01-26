@@ -53,7 +53,7 @@ export default function Home() {
                         key={album.id}
                         style={{ border: "1px solid #333", padding: "1rem" }}
                     >
-                        <h3>{album.title}</h3>
+                        <h3>{"title" in album ? album.title : album.name}</h3>
                         <p>ID: {album.id}</p>
                     </div>
                 ))}
