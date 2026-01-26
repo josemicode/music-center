@@ -1,28 +1,30 @@
 {
-  "name": "music-center-2",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "explain:deps": "echo 'See README.md for dependency explanations'"
-  },
-  "dependencies": {
-    "@tanstack/react-query": "^5.0.0",
-    "@trpc/client": "^11.0.0-rc.0",
-    "@trpc/react-query": "^11.0.0-rc.0",
-    "@trpc/server": "^11.0.0-rc.0",
-    "next": "^14.2.35",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "zod": "^3.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20.0.0",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "typescript": "^5.0.0"
-  }
+    "name": "music-center-2",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "report": "npm audit --omit=dev"
+    },
+    "dependencies": {
+        "@tanstack/react-query": "^5.0.0",
+        "@trpc/client": "^11.0.0-rc.0",
+        "@trpc/react-query": "^11.0.0-rc.0",
+        "@trpc/server": "^11.0.0-rc.0",
+        "next": "^14.2.35",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "zod": "^3.0.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.0.0",
+        "@types/react": "^18.0.0",
+        "@types/react-dom": "^18.0.0",
+        "eslint": "^8.57.1",
+        "eslint-config-next": "^14.2.35",
+        "typescript": "^5.0.0"
+    }
 }
