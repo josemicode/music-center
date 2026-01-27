@@ -3,12 +3,6 @@
 import { trpc } from "@/utils/trpc";
 import { useState } from "react";
 
-const findAlbumById = (id: number) => {
-    // 3. Querying for a Row
-    const rowQuery = trpc.album.getById.useQuery(id);
-    return rowQuery;
-};
-
 export default function Home() {
     // 1. Reading Data
     const { data: albums, isLoading } = trpc.album.list.useQuery();
@@ -22,6 +16,9 @@ export default function Home() {
 
     const [title, setTitle] = useState("");
     const [inputSearch, setInputSearch] = useState("");
+    const rowQuery = trpc.album.getById.useQuery(parseInt(inputSearch), {
+        enabled: false,
+    });
 
     if (isLoading) return <div>Loading...</div>;
 
@@ -77,7 +74,7 @@ export default function Home() {
                     />
                     <button
                         onClick={() => {
-                            findAlbumById(parseInt(inputSearch));
+                            rowQuery.refetch();
                         }}
                     >
                         {"Go"}
@@ -104,7 +101,13 @@ export default function Home() {
                     key="queryKey"
                     style={{ border: "1px solid #333", padding: "1rem" }}
                 >
-                    <p>Hey</p>
+                    {rowQuery.data ? (
+                        <h3>
+                            {rowQuery.data.id} - {rowQuery.data.title}
+                        </h3>
+                    ) : (
+                        <p>Hey</p>
+                    )}
                 </div>
             </div>
         </main>
