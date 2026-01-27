@@ -3,6 +3,12 @@
 import { trpc } from "@/utils/trpc";
 import { useState } from "react";
 
+const findAlbumById = (id: number) => {
+    // 3. Querying for a Row
+    const rowQuery = trpc.album.getById.useQuery(id);
+    return rowQuery;
+};
+
 export default function Home() {
     // 1. Reading Data
     const { data: albums, isLoading } = trpc.album.list.useQuery();
@@ -15,6 +21,7 @@ export default function Home() {
     });
 
     const [title, setTitle] = useState("");
+    const [inputSearch, setInputSearch] = useState("");
 
     if (isLoading) return <div>Loading...</div>;
 
@@ -31,28 +38,54 @@ export default function Home() {
             {/* Form Example */}
             <div
                 style={{
+                    display: "flex",
+                    flexDirection: "row",
                     marginBottom: "2rem",
                     border: "1px solid #ccc",
                     padding: "1rem",
                 }}
             >
-                <h2>Add Album</h2>
-                <input
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Album Title"
-                />
-                <button
-                    onClick={() =>
-                        createMutation.mutate({ title, artist_id: 999 })
-                    }
-                    disabled={createMutation.isPending}
+                <div>
+                    <h2>Add Album</h2>
+                    <input
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Album Title"
+                    />
+                    <button
+                        onClick={() =>
+                            // createMutation.mutate({ title, artist_id: 999 })
+                            alert("Nothing yet!")
+                        }
+                        disabled={createMutation.isPending}
+                    >
+                        {createMutation.isPending ? "Saving..." : "Create"}
+                    </button>
+                </div>
+                <div
+                    style={{
+                        alignSelf: "auto",
+                        marginLeft: "3rem",
+                        alignContent: "end",
+                    }}
                 >
-                    {createMutation.isPending ? "Saving..." : "Create"}
-                </button>
+                    <h2>Search Album</h2>
+                    <input
+                        value={inputSearch}
+                        onChange={(e) => setInputSearch(e.target.value)}
+                        placeholder="Album ID"
+                    />
+                    <button
+                        onClick={() => {
+                            findAlbumById(parseInt(inputSearch));
+                        }}
+                    >
+                        {"Go"}
+                    </button>
+                </div>
             </div>
 
-            {/* List Example */}
+            {/*List Example*/}
             <div style={{ display: "grid", gap: "1rem" }}>
                 {albums?.map((album: Album) => (
                     <div
@@ -63,6 +96,16 @@ export default function Home() {
                         <p>ID: {album.id}</p>
                     </div>
                 ))}
+            </div>
+            {/*Query Example*/}
+            <div style={{ display: "grid", gap: "1rem" }}>
+                <h3>Query result:</h3>
+                <div
+                    key="queryKey"
+                    style={{ border: "1px solid #333", padding: "1rem" }}
+                >
+                    <p>Hey</p>
+                </div>
             </div>
         </main>
     );

@@ -1,6 +1,6 @@
 /**
  * FILE PURPOSE: Database Connection (Manual / No ORM)
- * 
+ *
  * Since you requested to learn the "manual connection" flow before using Drizzle/Prisma,
  * this file represents where you would set up your connection pool purely with 'pg' (node-postgres).
  */
@@ -13,7 +13,7 @@
 // 2. Implementation
 import { Pool } from 'pg';
 
-// Create a connection pool. 
+// Create a connection pool.
 // This manages multiple connections so you don't open/close one for every request.
 const pool = new Pool({
   user: process.env.DB_USER,

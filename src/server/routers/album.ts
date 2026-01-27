@@ -68,7 +68,9 @@ export const albumRouter = router({
             // const result = await db.query('SELECT * FROM albums WHERE id = $1', [input]);
             // return result.rows[0];
 
-            const result = await fetch(url + "/" + input);
+            const result = await fetch(url + "/" + input.toString()).then((r) =>
+                r.json(),
+            );
             return result;
         }),
 });
