@@ -18,6 +18,12 @@ export default function Home() {
 
     if (isLoading) return <div>Loading...</div>;
 
+    type Album = {
+        id: string;
+        title: string;
+        artist_id: number;
+    };
+
     return (
         <main style={{ padding: "2rem" }}>
             <h1>Music Center 2 (Next.js + tRPC)</h1>
@@ -48,7 +54,7 @@ export default function Home() {
 
             {/* List Example */}
             <div style={{ display: "grid", gap: "1rem" }}>
-                {albums?.map((album) => (
+                {albums?.map((album: Album) => (
                     <div
                         key={album.id}
                         style={{ border: "1px solid #333", padding: "1rem" }}

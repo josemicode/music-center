@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
-import { log } from "node:console";
 
 /**
  * FILE PURPOSE: Album Router (The "Controller")
@@ -27,9 +26,8 @@ export const albumRouter = router({
         // return result.rows;
 
         // Testing with fake json server
-        const result = await fetch(url);
-        console.log(result.json());
-        return result.json();
+        const result = await fetch(url).then((r) => r.json());
+        return result;
     }),
 
     /**
@@ -70,6 +68,7 @@ export const albumRouter = router({
             // const result = await db.query('SELECT * FROM albums WHERE id = $1', [input]);
             // return result.rows[0];
 
-            return { id: input, title: `Album ${input}` };
+            const result = await fetch(url + "/" + input);
+            return result;
         }),
 });

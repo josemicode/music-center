@@ -1,21 +1,26 @@
-import { initTRPC } from '@trpc/server';
+import { initTRPC } from "@trpc/server";
 
 /**
  * FILE PURPOSE: tRPC Initialization
- * 
+ *
  * This file is the "engine room" of your backend. It's where you initialize tRPC
  * and define reusable pieces like 'publicProcedure' and 'router'.
- * 
+ *
  * You only need to set this up once per project.
  */
 
 // 1. Initialize tRPC
 // We create the tRPC instance. You can add context types here later (for things like session auth).
-const t = initTRPC.create();
+const t = initTRPC.context().create({
+    errorFormatter({ shape, error }) {
+        console.error("tRPC error: ", error);
+        return shape;
+    },
+});
 
 /**
  * 2. Export Reusable Helpers
- * 
+ *
  * Instead of importing 't' everywhere, we export specific builders.
  * This keeps your code clean and allows you to add middleware to these builders later.
  */
