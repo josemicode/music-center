@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
+import { log } from "node:console";
 
 /**
  * FILE PURPOSE: Album Router (The "Controller")
@@ -10,6 +11,9 @@ import { router, publicProcedure } from "../trpc";
 
 // Mock Database Helper (See src/utils/db.ts for the real deal implementation guide)
 // import { db } from '../../utils/db';
+
+// Url for endpoint:
+const url = "http://localhost:3000/albums";
 
 export const albumRouter = router({
     /**
@@ -22,11 +26,10 @@ export const albumRouter = router({
         // const result = await db.query('SELECT * FROM albums');
         // return result.rows;
 
-        // For now, we return mock data to show type safety:
-        return [
-            { id: 1, title: "Mock Album", artist_id: 101 },
-            { id: 2, name: "Another Album", artist_id: 102 },
-        ];
+        // Testing with fake json server
+        const result = await fetch(url);
+        console.log(result.json());
+        return result.json();
     }),
 
     /**

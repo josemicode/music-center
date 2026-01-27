@@ -17,7 +17,7 @@ export default function RootLayout({
         createTRPCClient<AppRouter>({
             links: [
                 httpBatchLink({
-                    url: "http://localhost:3000/api/trpc",
+                    url: "http://localhost:8080/api/trpc",
                 }),
             ],
         }),

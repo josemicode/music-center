@@ -1,0 +1,10 @@
+{
+    "posts": [
+        { "id": "1", "title": "a title", "views": 100 },
+        { "id": "2", "title": "another title", "views": 200 }
+    ],
+    "albums": [
+        { "id": "1", "title": "Mock Album", "artist_id": 101 },
+        { "id": "2", "title": "Another Album", "artist_id": 102 }
+    ]
+}
