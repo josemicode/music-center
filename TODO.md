@@ -6,7 +6,7 @@ This list outlines the next steps to evolve this project from a basic setup to a
 
 The core of any CRUD application.
 
-- [ ] **Fix Create Mutation**: Update `src/server/routers/album.ts` to actually perform a `POST` fetch to the `json-server` instead of just returning dummy data.
+- [x] **Fix Create Mutation**: Update `src/server/routers/album.ts` to actually perform a `POST` fetch to the `json-server` instead of just returning dummy data.
 - [ ] **Implement Delete**:
   - [ ] Add a `delete` mutation in the tRPC `albumRouter`.
   - [ ] Add a "Delete" button to each album item in the UI.

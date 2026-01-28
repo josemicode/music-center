@@ -3,7 +3,17 @@
 import { trpc } from "@/utils/trpc";
 import { useState } from "react";
 
+const randomIdGenerator = () => {
+    return Math.floor(Math.random() * 100);
+};
+
 export default function Home() {
+    type Album = {
+        id: string;
+        title: string;
+        artist_id: number;
+    };
+
     // 1. Reading Data
     const { data: albums, isLoading } = trpc.album.list.useQuery();
 
@@ -12,7 +22,15 @@ export default function Home() {
         onSuccess: () => {
             alert("Album Created!");
         },
+        onError: () => {
+            alert("Oops...");
+        },
     });
+
+    type Override<T, R> = Omit<T, keyof R> & R;
+    const handleCreation = (album: Override<Album, { id: number }>) => {
+        createMutation.mutate(album);
+    };
 
     const [title, setTitle] = useState("");
     const [inputSearch, setInputSearch] = useState("");
@@ -21,12 +39,6 @@ export default function Home() {
     });
 
     if (isLoading) return <div>Loading...</div>;
-
-    type Album = {
-        id: string;
-        title: string;
-        artist_id: number;
-    };
 
     return (
         <main style={{ padding: "2rem" }}>
@@ -51,8 +63,11 @@ export default function Home() {
                     />
                     <button
                         onClick={() =>
-                            // createMutation.mutate({ title, artist_id: 999 })
-                            alert("Nothing yet!")
+                            handleCreation({
+                                id: randomIdGenerator(),
+                                title: title,
+                                artist_id: randomIdGenerator(),
+                            })
                         }
                         disabled={createMutation.isPending}
                     >

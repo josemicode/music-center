@@ -36,11 +36,12 @@ export const albumRouter = router({
      */
     create: publicProcedure
         // INPUT VALIDATION: Zod checks the input *before* your function runs.
+        // NOTE: The id shouldn't be inputted but generated within the procedure (or with a helper). I doubt json-server provides auto-gen...
         .input(
             z.object({
+                id: z.number(),
                 title: z.string().min(1),
                 artist_id: z.number(),
-                year: z.number().optional(),
             }),
         )
         .mutation(async (opts) => {
@@ -52,7 +53,11 @@ export const albumRouter = router({
             // const result = await db.query(sql, values);
             // return result.rows[0];
 
-            return { success: true, createdAlbum: input };
+            const result = await fetch(url, {
+                method: "POST",
+                body: JSON.stringify(input),
+            });
+            return result;
         }),
 
     /**
