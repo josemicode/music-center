@@ -35,7 +35,6 @@ export const albumRouter = router({
      * Equivalent to: POST /api/albums
      */
     create: publicProcedure
-        // INPUT VALIDATION: Zod checks the input *before* your function runs.
         // NOTE: The id shouldn't be inputted but generated within the procedure (or with a helper). I doubt json-server provides auto-gen...
         .input(
             z.object({
@@ -78,4 +77,43 @@ export const albumRouter = router({
             );
             return result;
         }),
+
+    /**
+     * 4. AN UPDATE BY ID Operation
+     * Equivalent to: PATCH /api/albums/:id
+     */
+    updateById: publicProcedure
+        // NOTE: the reason I'm not going to abstract the album schema is because it will contain optionals here; I expect the client to only change the title
+        .input(
+            z.object({
+                id: z.string().min(1),
+                title: z.string().min(1),
+                artist_id: z.number().optional(),
+            }),
+        )
+        .mutation(async ({ input }) => {
+            const { id, ...data } = input;
+
+            // We could use the put method and merge the old and new data; granted, this means firing a GET request for the existing
+            // const updated = { ...existing, ...patch };
+
+            const result = await fetch(url + "/" + id, {
+                method: "PATCH",
+                body: JSON.stringify(data),
+            });
+            return result;
+        }),
+
+    /**
+     * 5. A DELETE Operation
+     * Equivalent to: DELETE /api/albums/:id
+     */
+    delete: publicProcedure.input(z.number()).mutation(async (opts) => {
+        const { input } = opts;
+
+        const result = await fetch(url + "/" + input.toString(), {
+            method: "DELETE",
+        });
+        return result;
+    }),
 });
