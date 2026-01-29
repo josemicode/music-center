@@ -8,10 +8,10 @@ The core of any CRUD application.
 
 - [x] **Fix Create Mutation**: Update `src/server/routers/album.ts` to actually perform a `POST` fetch to the `json-server` instead of just returning dummy data.
 - [ ] **Implement Delete**:
-  - [ ] Add a `delete` mutation in the tRPC `albumRouter`.
+  - [x] Add a `delete` mutation in the tRPC `albumRouter`.
   - [ ] Add a "Delete" button to each album item in the UI.
 - [ ] **Implement Update (Edit)**:
-  - [ ] Add an `update` mutation (using `z.object({ id: z.number(), title: z.string() })`) in tRPC.
+  - [x] Add an `update` mutation (using `z.object({ id: z.number(), title: z.string() })`) in tRPC.
   - [ ] Add an "Edit" button that toggles an input field for the album title.
 
 ## Phase 2: Relational Data & Multiple Routers
@@ -29,7 +29,7 @@ Learning how to handle related entities.
 
 Mastering React Query and modern UI patterns.
 
-- [ ] **Cache Invalidation**: Use `utils.album.list.invalidate()` inside the `onSuccess` callback of your mutations so the list refreshes automatically without a page reload.
+- [x] **Cache Invalidation**: Use `utils.album.list.invalidate()` inside the `onSuccess` callback of your mutations so the list refreshes automatically without a page reload.
 - [ ] **Optimistic Updates**: Implement optimistic updates for the delete action so the item "disappears" immediately while the request is still pending.
 - [ ] **Loading & Error States**:
   - [ ] Add a generic `LoadingSpinner` component.
@@ -40,7 +40,9 @@ Mastering React Query and modern UI patterns.
 
 Making it look professional.
 
-- [ ] **Component Refactoring**: Break down the monolithic `page.tsx` into smaller components: `AlbumList`, `AlbumItem`, `AddAlbumForm`.
+- [ ] **Component Refactoring**: Break down the monolithic `page.tsx` into smaller components: `AlbumView`, `AddAlbumForm`.
+  - [x] AlbumView.
+  - [ ] AddAlbumForm.
 - [ ] **Modern Styling**: Transition from inline styles to **Tailwind CSS** or **CSS Modules** for better maintainability and responsiveness.
 - [ ] **Layouts**: Use the `layout.tsx` file to create a consistent Navigation bar and Footer.
 

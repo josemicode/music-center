@@ -4,17 +4,26 @@ import { trpc } from "@/utils/trpc";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
+type Album = {
+    id: string;
+    title: string;
+    artist_id: number;
+};
+
 const randomIdGenerator = () => {
     return Math.floor(Math.random() * 100);
 };
 
-export default function Home() {
-    type Album = {
-        id: string;
-        title: string;
-        artist_id: number;
-    };
+export function AlbumView(props: Album) {
+    return (
+        <div style={{ border: "1px solid #333", padding: "1rem" }}>
+            <h3>{props.title}</h3>
+            <p>ID: {props.id}</p>
+        </div>
+    );
+}
 
+export default function Home() {
     const utils = trpc.useUtils();
 
     const { data: albums, isLoading } = trpc.album.list.useQuery();
@@ -95,30 +104,20 @@ export default function Home() {
             {/*List Example*/}
             <div style={{ display: "grid", gap: "1rem" }}>
                 {albums?.map((album: Album) => (
-                    <div
-                        key={album.id}
-                        style={{ border: "1px solid #333", padding: "1rem" }}
-                    >
-                        <h3>{album.title}</h3>
-                        <p>ID: {album.id}</p>
-                    </div>
+                    <AlbumView key={album.id} {...album} />
                 ))}
             </div>
+
             {/*Query Example*/}
             <div style={{ display: "grid", gap: "1rem" }}>
                 <h3>Query result:</h3>
-                <div
-                    key="queryKey"
-                    style={{ border: "1px solid #333", padding: "1rem" }}
-                >
-                    {rowQuery.data ? (
-                        <h3>
-                            {rowQuery.data.id} - {rowQuery.data.title}
-                        </h3>
-                    ) : (
-                        <p>Hey</p>
-                    )}
-                </div>
+                {rowQuery.data ? (
+                    <AlbumView key="queryKey" {...rowQuery.data} />
+                ) : (
+                    <p>
+                        Insert an <em>ID</em> first!
+                    </p>
+                )}
             </div>
             <Toaster position="bottom-center" reverseOrder={true} />
         </main>
