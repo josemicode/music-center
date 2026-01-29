@@ -2,26 +2,13 @@
 
 import { trpc } from "@/utils/trpc";
 import { useState } from "react";
+import type { Album } from "./components/AlbumView";
+import AlbumView from "./components/AlbumView";
 import toast, { Toaster } from "react-hot-toast";
-
-type Album = {
-    id: string;
-    title: string;
-    artist_id: number;
-};
 
 const randomIdGenerator = () => {
     return Math.floor(Math.random() * 100);
 };
-
-export function AlbumView(props: Album) {
-    return (
-        <div style={{ border: "1px solid #333", padding: "1rem" }}>
-            <h3>{props.title}</h3>
-            <p>ID: {props.id}</p>
-        </div>
-    );
-}
 
 export default function Home() {
     const utils = trpc.useUtils();
@@ -40,6 +27,14 @@ export default function Home() {
 
     const handleCreation = (album: Album) => {
         createMutation.mutate(album);
+    };
+
+    const deleteMutation = trpc.album.delete.useMutation({
+        onSuccess: () => utils.album.list.invalidate(),
+    });
+
+    const handleDeletion = (id: number) => {
+        deleteMutation.mutate(id);
     };
 
     const [title, setTitle] = useState("");
@@ -104,7 +99,11 @@ export default function Home() {
             {/*List Example*/}
             <div style={{ display: "grid", gap: "1rem" }}>
                 {albums?.map((album: Album) => (
-                    <AlbumView key={album.id} {...album} />
+                    <AlbumView
+                        key={album.id}
+                        albumProp={album}
+                        deleteAlbum={handleDeletion}
+                    />
                 ))}
             </div>
 
