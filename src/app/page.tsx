@@ -2,6 +2,7 @@
 
 import { trpc } from "@/utils/trpc";
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const randomIdGenerator = () => {
     return Math.floor(Math.random() * 100);
@@ -14,21 +15,21 @@ export default function Home() {
         artist_id: number;
     };
 
-    // 1. Reading Data
+    const utils = trpc.useUtils();
+
     const { data: albums, isLoading } = trpc.album.list.useQuery();
 
-    // 2. Writing Data
     const createMutation = trpc.album.create.useMutation({
         onSuccess: () => {
-            alert("Album Created!");
+            utils.album.invalidate();
+            toast.success("Album Created!");
         },
         onError: () => {
-            alert("Oops...");
+            toast.error("Oops...");
         },
     });
 
-    type Override<T, R> = Omit<T, keyof R> & R;
-    const handleCreation = (album: Override<Album, { id: number }>) => {
+    const handleCreation = (album: Album) => {
         createMutation.mutate(album);
     };
 
@@ -64,7 +65,7 @@ export default function Home() {
                     <button
                         onClick={() =>
                             handleCreation({
-                                id: randomIdGenerator(),
+                                id: randomIdGenerator().toString(),
                                 title: title,
                                 artist_id: randomIdGenerator(),
                             })
@@ -87,13 +88,7 @@ export default function Home() {
                         onChange={(e) => setInputSearch(e.target.value)}
                         placeholder="Album ID"
                     />
-                    <button
-                        onClick={() => {
-                            rowQuery.refetch();
-                        }}
-                    >
-                        {"Go"}
-                    </button>
+                    <button onClick={() => rowQuery.refetch()}>{"Go"}</button>
                 </div>
             </div>
 
@@ -125,6 +120,7 @@ export default function Home() {
                     )}
                 </div>
             </div>
+            <Toaster position="bottom-center" reverseOrder={true} />
         </main>
     );
 }

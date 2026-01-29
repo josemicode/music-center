@@ -39,7 +39,7 @@ export const albumRouter = router({
         // NOTE: The id shouldn't be inputted but generated within the procedure (or with a helper). I doubt json-server provides auto-gen...
         .input(
             z.object({
-                id: z.number(),
+                id: z.string().min(1),
                 title: z.string().min(1),
                 artist_id: z.number(),
             }),

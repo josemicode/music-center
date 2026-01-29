@@ -34,7 +34,7 @@ Mastering React Query and modern UI patterns.
 - [ ] **Loading & Error States**:
   - [ ] Add a generic `LoadingSpinner` component.
   - [ ] Handle tRPC errors gracefully in the UI (e.g., if the `json-server` is down).
-- [ ] **Better Notifications**: Replace the browser `alert()` calls with a toast library like `sonner` or `react-hot-toast`.
+- [x] **Better Notifications**: Replace the browser `alert()` calls with a toast library like `sonner` or `react-hot-toast`.
 
 ## Phase 4: UI Architecture & Styling
 
