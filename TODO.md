@@ -10,9 +10,9 @@ The core of any CRUD application.
 - [x] **Implement Delete**:
   - [x] Add a `delete` mutation in the tRPC `albumRouter`.
   - [x] Add a "Delete" button to each album item in the UI.
-- [ ] **Implement Update (Edit)**:
+- [x] **Implement Update (Edit)**:
   - [x] Add an `update` mutation (using `z.object({ id: z.number(), title: z.string() })`) in tRPC.
-  - [ ] Add an "Edit" button that toggles an input field for the album title.
+  - [x] Add an "Edit" button that toggles an input field for the album title.
 
 ## Phase 2: Relational Data & Multiple Routers
 
