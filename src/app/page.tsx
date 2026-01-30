@@ -1,55 +1,14 @@
-"use client"; // We use 'useClient' because we are capturing user interaction and using hooks
-
-import { trpc } from "@/utils/trpc";
-import { useState } from "react";
-import type { Album } from "./components/AlbumView";
-import AlbumView from "./components/AlbumView";
-import toast, { Toaster } from "react-hot-toast";
-
-const randomIdGenerator = () => {
-    return Math.floor(Math.random() * 100);
-};
+import CreateAlbumForm from "./components/CreateAlbumForm";
+import AlbumList from "./components/AlbumList";
+import SearchAlbum from "./components/SearchAlbum";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
-    const utils = trpc.useUtils();
-
-    const { data: albums, isLoading } = trpc.album.list.useQuery();
-
-    const createMutation = trpc.album.create.useMutation({
-        onSuccess: () => {
-            utils.album.invalidate();
-            toast.success("Album Created!");
-        },
-        onError: () => {
-            toast.error("Oops...");
-        },
-    });
-
-    const handleCreation = (album: Album) => {
-        createMutation.mutate(album);
-    };
-
-    const deleteMutation = trpc.album.delete.useMutation({
-        onSuccess: () => utils.album.list.invalidate(),
-    });
-
-    const handleDeletion = (id: number) => {
-        deleteMutation.mutate(id);
-    };
-
-    const [title, setTitle] = useState("");
-    const [inputSearch, setInputSearch] = useState("");
-    const rowQuery = trpc.album.getById.useQuery(parseInt(inputSearch), {
-        enabled: false,
-    });
-
-    if (isLoading) return <div>Loading...</div>;
-
     return (
         <main style={{ padding: "2rem" }}>
             <h1>Music Center 2 (Next.js + tRPC)</h1>
 
-            {/* Form Example */}
+            {/* Form & Search Section */}
             <div
                 style={{
                     display: "flex",
@@ -59,65 +18,13 @@ export default function Home() {
                     padding: "1rem",
                 }}
             >
-                <div>
-                    <h2>Add Album</h2>
-                    <input
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder="Album Title"
-                    />
-                    <button
-                        onClick={() =>
-                            handleCreation({
-                                id: randomIdGenerator().toString(),
-                                title: title,
-                                artist_id: randomIdGenerator(),
-                            })
-                        }
-                        disabled={createMutation.isPending}
-                    >
-                        {createMutation.isPending ? "Saving..." : "Create"}
-                    </button>
-                </div>
-                <div
-                    style={{
-                        alignSelf: "auto",
-                        marginLeft: "3rem",
-                        alignContent: "end",
-                    }}
-                >
-                    <h2>Search Album</h2>
-                    <input
-                        value={inputSearch}
-                        onChange={(e) => setInputSearch(e.target.value)}
-                        placeholder="Album ID"
-                    />
-                    <button onClick={() => rowQuery.refetch()}>{"Go"}</button>
-                </div>
+                <CreateAlbumForm />
+                <SearchAlbum />
             </div>
 
-            {/*List Example*/}
-            <div style={{ display: "grid", gap: "1rem" }}>
-                {albums?.map((album: Album) => (
-                    <AlbumView
-                        key={album.id}
-                        albumProp={album}
-                        deleteAlbum={handleDeletion}
-                    />
-                ))}
-            </div>
+            {/* List Section */}
+            <AlbumList />
 
-            {/*Query Example*/}
-            <div style={{ display: "grid", gap: "1rem" }}>
-                <h3>Query result:</h3>
-                {rowQuery.data ? (
-                    <AlbumView key="queryKey" {...rowQuery.data} />
-                ) : (
-                    <p>
-                        Insert an <em>ID</em> first!
-                    </p>
-                )}
-            </div>
             <Toaster position="bottom-center" reverseOrder={true} />
         </main>
     );
