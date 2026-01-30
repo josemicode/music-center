@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { trpc } from "@/utils/trpc";
 import toast from "react-hot-toast";
-import { Album } from "./AlbumView";
 
 const randomIdGenerator = () => {
     return Math.floor(Math.random() * 100);

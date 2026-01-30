@@ -1,6 +1,7 @@
 "use client";
 
 import { trpc } from "@/utils/trpc";
+import toast from "react-hot-toast";
 
 export type Album = {
     id: string;
@@ -19,6 +20,8 @@ export default function AlbumView({ albumProp }: { albumProp: Album }) {
 
     const handleDeletion = (id: number) => {
         deleteMutation.mutate(id);
+
+        toast("Album deleted!", { icon: "🗑️" });
     };
 
     return (
