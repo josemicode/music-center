@@ -21,26 +21,6 @@
             "id": "2",
             "title": "Another Album",
             "artist_id": 102
-        },
-        {
-            "id": "3",
-            "title": "Bad",
-            "artist_id": 1
-        },
-        {
-            "id": "4",
-            "title": "Ha!",
-            "artist_id": 1
-        },
-        {
-            "id": "47",
-            "title": "Fools",
-            "artist_id": 71
-        },
-        {
-            "id": "30",
-            "title": "Try Again?",
-            "artist_id": 96
         }
     ]
 }
