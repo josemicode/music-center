@@ -1,14 +1,12 @@
 {
-    "posts": [
+    "artists": [
         {
             "id": "1",
-            "title": "a title",
-            "views": 100
+            "name": "VACATIONS"
         },
         {
             "id": "2",
-            "title": "another title",
-            "views": 200
+            "name": "Hers"
         }
     ],
     "albums": [

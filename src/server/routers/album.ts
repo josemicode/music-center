@@ -1,13 +1,6 @@
 import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
 
-/**
- * FILE PURPOSE: Album Router (The "Controller")
- *
- * This file replaces 'controllers/albumController.js' AND 'routes/albumRoutes.js'.
- * Here we define functions (procedures) that the frontend can call directly.
- */
-
 // Mock Database Helper (See src/utils/db.ts for the real deal implementation guide)
 // import { db } from '../../utils/db';
 

@@ -18,9 +18,9 @@ The core of any CRUD application.
 
 Learning how to handle related entities.
 
-- [ ] **Artist Router**:
-  - [ ] Create `src/server/routers/artist.ts` and register it in `src/server/index.ts`.
-  - [ ] Implement `list` and `create` for artists.
+- [x] **Artist Router**:
+  - [x] Create `src/server/routers/artist.ts` and register it in `src/server/index.ts`.
+  - [x] Implement `list` and `create` for artists.
 - [ ] **Connect Albums to Artists**:
   - [ ] When listing albums, fetch the artist details to show "Album Title by Artist Name" instead of just an ID.
   - [ ] Update the "Add Album" form to include a `<select>` dropdown populated with artists from the database.
