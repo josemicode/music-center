@@ -2,3 +2,12 @@
     display: grid;
     gap: 1rem;
 }
+
+.error {
+    color: red;
+    padding: 1rem;
+    border: 1px solid red;
+    border-radius: 4px;
+    background-color: #ffe6e6;
+    text-align: center;
+}

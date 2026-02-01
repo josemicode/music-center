@@ -17,7 +17,21 @@ export default function AlbumView({ albumProp }: { albumProp: Album }) {
     const [isEditing, setIsEditing] = useState(false);
 
     const deleteMutation = trpc.album.delete.useMutation({
-        onSuccess: () => {
+        onMutate: async (idToDelete) => {
+            await utils.album.list.cancel();
+            const previousAlbums = utils.album.list.getData();
+
+            utils.album.list.setData(undefined, (old: Album[] | undefined) => 
+                old ? old.filter((album) => parseInt(album.id) !== idToDelete) : []
+            );
+
+            return { previousAlbums };
+        },
+        onError: (err, newAlbum, context) => {
+            utils.album.list.setData(undefined, context?.previousAlbums);
+            toast.error("Failed to delete album");
+        },
+        onSettled: () => {
             utils.album.invalidate();
         },
     });
