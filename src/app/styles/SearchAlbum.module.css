@@ -1,0 +1,9 @@
+.searchContainer {
+    align-self: auto;
+    margin-left: 3rem;
+    align-content: end;
+}
+
+.resultContainer {
+    margin-top: 1rem;
+}

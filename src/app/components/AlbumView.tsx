@@ -4,6 +4,7 @@ import { useState } from "react";
 import { trpc } from "@/utils/trpc";
 import EditAlbumModal from "./EditAlbumModal";
 import toast from "react-hot-toast";
+import styles from "../styles/AlbumView.module.css";
 
 export type Album = {
     id: string;
@@ -32,7 +33,7 @@ export default function AlbumView({ albumProp }: { albumProp: Album }) {
 
     return (
         <>
-            <div style={{ border: "1px solid #333", padding: "1rem" }}>
+            <div className={styles.albumCard}>
                 <h3>{albumProp.title}</h3>
                 <p>ID: {albumProp.id}</p>
             </div>

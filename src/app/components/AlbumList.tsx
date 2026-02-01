@@ -2,6 +2,7 @@
 
 import { trpc } from "@/utils/trpc";
 import AlbumView, { Album } from "./AlbumView";
+import styles from "../styles/AlbumList.module.css";
 
 export default function AlbumList() {
     const { data: albums, isLoading } = trpc.album.list.useQuery();
@@ -9,7 +10,7 @@ export default function AlbumList() {
     if (isLoading) return <div>Loading...</div>;
 
     return (
-        <div style={{ display: "grid", gap: "1rem" }}>
+        <div className={styles.albumGrid}>
             {albums?.map((album: Album) => (
                 <AlbumView key={album.id} albumProp={album} />
             ))}

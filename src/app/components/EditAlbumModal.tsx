@@ -4,6 +4,7 @@ import { useState } from "react";
 import { trpc } from "@/utils/trpc";
 import { Album } from "./AlbumView";
 import toast from "react-hot-toast";
+import styles from "../styles/EditAlbumModal.module.css";
 
 /**
  * NOTE:
@@ -40,37 +41,12 @@ export default function EditAlbumModal({
     };
 
     return (
-        <div
-            style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                zIndex: 1000,
-            }}
-        >
-            <div
-                style={{
-                    backgroundColor: "white",
-                    padding: "20px",
-                    borderRadius: "8px",
-                    minWidth: "300px",
-                    color: "black",
-                }}
-            >
+        <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
                 <h3>Edit Album</h3>
                 <form
                     onSubmit={handleUpdate}
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "10px",
-                    }}
+                    className={styles.form}
                 >
                     <label>
                         Title:
@@ -78,16 +54,10 @@ export default function EditAlbumModal({
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
-                            style={{ marginLeft: "10px", padding: "5px" }}
+                            className={styles.inputField}
                         />
                     </label>
-                    <div
-                        style={{
-                            display: "flex",
-                            gap: "10px",
-                            marginTop: "10px",
-                        }}
-                    >
+                    <div className={styles.buttonGroup}>
                         <button
                             type="submit"
                             disabled={updateMutation.isPending}

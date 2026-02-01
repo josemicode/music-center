@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { trpc } from "@/utils/trpc";
 import AlbumView from "./AlbumView";
+import styles from "../styles/SearchAlbum.module.css";
 
 export default function SearchAlbum() {
     const [inputSearch, setInputSearch] = useState("");
@@ -17,13 +18,7 @@ export default function SearchAlbum() {
     });
 
     return (
-        <div
-            style={{
-                alignSelf: "auto",
-                marginLeft: "3rem",
-                alignContent: "end",
-            }}
-        >
+        <div className={styles.searchContainer}>
             <h2>Search Album</h2>
             <input
                 value={inputSearch}
@@ -32,7 +27,7 @@ export default function SearchAlbum() {
             />
             <button onClick={() => rowQuery.refetch()}>{"Go"}</button>
 
-            <div style={{ marginTop: "1rem" }}>
+            <div className={styles.resultContainer}>
                 <h3>Query result:</h3>
                 {rowQuery.data ? (
                     <AlbumView key="queryKey" albumProp={rowQuery.data} />

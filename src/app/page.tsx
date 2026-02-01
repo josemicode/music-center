@@ -2,22 +2,15 @@ import CreateAlbumForm from "./components/CreateAlbumForm";
 import AlbumList from "./components/AlbumList";
 import SearchAlbum from "./components/SearchAlbum";
 import { Toaster } from "react-hot-toast";
+import styles from "./styles/Home.module.css";
 
 export default function Home() {
     return (
-        <main style={{ padding: "2rem" }}>
+        <main className={styles.mainContainer}>
             <h1>Music Center 2 (Next.js + tRPC)</h1>
 
             {/* Form & Search Section */}
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    marginBottom: "2rem",
-                    border: "1px solid #ccc",
-                    padding: "1rem",
-                }}
-            >
+            <div className={styles.formSearchSection}>
                 <CreateAlbumForm />
                 <SearchAlbum />
             </div>
