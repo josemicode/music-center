@@ -32,7 +32,7 @@ Mastering React Query and modern UI patterns.
 - [x] **Cache Invalidation**: Use `utils.album.list.invalidate()` inside the `onSuccess` callback of your mutations so the list refreshes automatically without a page reload.
 - [ ] **Optimistic Updates**: Implement optimistic updates for the delete action so the item "disappears" immediately while the request is still pending.
 - [ ] **Loading & Error States**:
-  - [ ] Add a generic `LoadingSpinner` component.
+  - [x] Add a generic `LoadingSpinner` component.
   - [ ] Handle tRPC errors gracefully in the UI (e.g., if the `json-server` is down).
 - [x] **Better Notifications**: Replace the browser `alert()` calls with a toast library like `sonner` or `react-hot-toast`.
 

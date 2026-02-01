@@ -1,13 +1,14 @@
 "use client";
 
+import styles from "../styles/AlbumList.module.css";
 import { trpc } from "@/utils/trpc";
 import AlbumView, { Album } from "./AlbumView";
-import styles from "../styles/AlbumList.module.css";
+import Loader from "./Loader";
 
 export default function AlbumList() {
     const { data: albums, isLoading } = trpc.album.list.useQuery();
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <Loader />;
 
     return (
         <div className={styles.albumGrid}>
