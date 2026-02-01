@@ -59,16 +59,13 @@ export const albumRouter = router({
     getById: publicProcedure
         .input(z.number()) // The input is just a number
         .query(async (opts) => {
-            const { input } = opts; // input is the ID
+            const { input } = opts;
 
-            // LOGIC:
-            // const result = await db.query('SELECT * FROM albums WHERE id = $1', [input]);
-            // return result.rows[0];
-
-            const result = await fetch(url + "/" + input.toString()).then((r) =>
-                r.json(),
-            );
-            return result;
+            const response = await fetch(`${url}/${input}`);
+            if (!response.ok) {
+                return null;
+            }
+            return response.json();
         }),
 
     /**

@@ -7,15 +7,18 @@ import styles from "../styles/SearchAlbum.module.css";
 
 export default function SearchAlbum() {
     const [inputSearch, setInputSearch] = useState("");
+    const [lastSearchedId, setLastSearchedId] = useState<number | null>(null);
 
-    // Using TRPC generic error handling might be needed if parseInt returns NaN?
-    // But getById likely expects number.
-    // Ensure we don't pass NaN to the query if possible, or let it fail gracefully.
-    // Current impl: parseInt(inputSearch)
-
-    const rowQuery = trpc.album.getById.useQuery(parseInt(inputSearch) || 0, {
-        enabled: false,
+    const rowQuery = trpc.album.getById.useQuery(lastSearchedId!, {
+        enabled: lastSearchedId !== null,
     });
+
+    const handleSearch = () => {
+        const id = parseInt(inputSearch);
+        if (!isNaN(id)) {
+            setLastSearchedId(id);
+        }
+    };
 
     return (
         <div className={styles.searchContainer}>
@@ -25,17 +28,18 @@ export default function SearchAlbum() {
                 onChange={(e) => setInputSearch(e.target.value)}
                 placeholder="Album ID"
             />
-            <button onClick={() => rowQuery.refetch()}>{"Go"}</button>
+            <button onClick={handleSearch}>Go</button>
 
             <div className={styles.resultContainer}>
                 <h3>Query result:</h3>
+                {rowQuery.isLoading && <p>Searching...</p>}
+                {rowQuery.isError && <p className={styles.error}>Error: {rowQuery.error.message}</p>}
                 {rowQuery.data ? (
-                    <AlbumView key="queryKey" albumProp={rowQuery.data} />
+                    <AlbumView key={rowQuery.data.id} albumProp={rowQuery.data} />
                 ) : (
-                    <p>
-                        Insert an <em>ID</em> first!
-                    </p>
+                    !rowQuery.isLoading && lastSearchedId !== null && <p>No album found with ID {lastSearchedId}</p>
                 )}
+                {lastSearchedId === null && <p>Insert an <em>ID</em> first!</p>}
             </div>
         </div>
     );

@@ -18,17 +18,34 @@ export default function AlbumView({ albumProp }: { albumProp: Album }) {
 
     const deleteMutation = trpc.album.delete.useMutation({
         onMutate: async (idToDelete) => {
+            // Cancel outgoing fetches (list and specific getById)
             await utils.album.list.cancel();
-            const previousAlbums = utils.album.list.getData();
+            await utils.album.getById.cancel(idToDelete);
 
-            utils.album.list.setData(undefined, (old: Album[] | undefined) => 
-                old ? old.filter((album) => parseInt(album.id) !== idToDelete) : []
+            // Snapshot the previous values
+            const previousAlbums = utils.album.list.getData();
+            const previousAlbum = utils.album.getById.getData(idToDelete);
+
+            // Optimistically update list
+            utils.album.list.setData(undefined, (old: Album[] | undefined) =>
+                old
+                    ? old.filter((album) => parseInt(album.id) !== idToDelete)
+                    : [],
             );
 
-            return { previousAlbums };
+            // Optimistically clear the individual record
+            utils.album.getById.setData(idToDelete, undefined);
+
+            return { previousAlbums, previousAlbum };
+        },
+        onSuccess: () => {
+            toast("Album deleted!", { icon: "🗑️" });
         },
         onError: (err, newAlbum, context) => {
             utils.album.list.setData(undefined, context?.previousAlbums);
+            if (context?.previousAlbum && typeof newAlbum === "number") {
+                utils.album.getById.setData(newAlbum, context.previousAlbum);
+            }
             toast.error("Failed to delete album");
         },
         onSettled: () => {
@@ -38,7 +55,6 @@ export default function AlbumView({ albumProp }: { albumProp: Album }) {
 
     const handleDeletion = (id: number) => {
         deleteMutation.mutate(id);
-        toast("Album deleted!", { icon: "🗑️" });
     };
 
     const handleEdit = () => {
