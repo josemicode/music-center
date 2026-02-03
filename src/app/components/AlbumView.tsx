@@ -39,7 +39,7 @@ export default function AlbumView({ albumProp }: { albumProp: Album }) {
             return { previousAlbums, previousAlbum };
         },
         onSuccess: () => {
-            toast("Album deleted!", { icon: "🗑️" });
+            toast("Album deleted!", { icon: "\u2716" });
         },
         onError: (err, newAlbum, context) => {
             utils.album.list.setData(undefined, context?.previousAlbums);
