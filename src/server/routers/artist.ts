@@ -13,17 +13,36 @@ export const artistRouter = router({
     create: publicProcedure
         .input(
             z.object({
-                id: z.string().min(1),
                 name: z.string().min(1),
             }),
         )
         .mutation(async (opts) => {
             const { input } = opts;
 
-            const result = await fetch(url, {
+            const response = await fetch(url, {
                 method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify(input),
             });
-            return result;
+            if (!response.ok) {
+                throw new Error(
+                    `Failed to create artist: ${response.statusText}`,
+                );
+            }
+            return response.json();
         }),
+
+    delete: publicProcedure.input(z.string()).mutation(async (opts) => {
+        const { input } = opts;
+
+        const response = await fetch(`${url}/${input}`, {
+            method: "DELETE",
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to delete artist: ${response.statusText}`);
+        }
+        return response.json();
+    }),
 });

@@ -1,13 +1,14 @@
 {
     "name": "music-center-2",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "private": true,
     "scripts": {
         "dev": "next dev -p 8080",
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "report": "npm audit --omit=dev"
+        "report": "npm audit --omit=dev",
+        "json-server": "json-server --watch src/utils/db.json --port 3000"
     },
     "dependencies": {
         "@tanstack/react-query": "^5.0.0",
