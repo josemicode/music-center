@@ -5,8 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { trpc } from "@/utils/trpc";
 import { createTRPCClient, httpBatchLink } from "@trpc/client";
 import type { AppRouter } from "@/server";
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import styles from "./styles/Layout.module.css";
 
 export default function RootLayout({
     children,
@@ -25,27 +26,45 @@ export default function RootLayout({
         }),
     );
 
+    const pathname = usePathname();
+
     return (
         <html lang="en">
-            <body
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    minHeight: "100vh",
-                }}
-            >
-                <Navbar />
-                <div style={{ flex: 1 }}>
-                    <trpc.Provider
-                        client={trpcClient}
-                        queryClient={queryClient}
-                    >
-                        <QueryClientProvider client={queryClient}>
-                            {children}
-                        </QueryClientProvider>
-                    </trpc.Provider>
-                </div>
-                <Footer />
+            <body>
+                <nav className={styles.navContainer}>
+                    <div>Music Center</div>
+                    <ul className={styles.navLinks}>
+                        <li>
+                            <Link
+                                href="/"
+                                className={`${styles.navLink} ${pathname === "/" ? styles.activeLink : ""}`}
+                            >
+                                Albums
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/artists"
+                                className={`${styles.navLink} ${pathname === "/artists" ? styles.activeLink : ""}`}
+                            >
+                                Artists
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
+
+                <trpc.Provider client={trpcClient} queryClient={queryClient}>
+                    <QueryClientProvider client={queryClient}>
+                        {children}
+                    </QueryClientProvider>
+                </trpc.Provider>
+
+                <footer className={styles.footerContainer}>
+                    <p>
+                        &copy; {new Date().getFullYear()} Music Center. All
+                        rights reserved.
+                    </p>
+                </footer>
             </body>
         </html>
     );
