@@ -22,8 +22,11 @@ export const artistRouter = router({
 
             const result = await fetch(url, {
                 method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify(input),
             });
-            return result;
+            return result.json();
         }),
 });

@@ -45,7 +45,7 @@ Making it look professional.
   - [x] AddAlbumForm.
   - [x] SearchAlbum
 - [x] **Modern Styling**: Transition from inline styles to **Tailwind CSS** or **CSS Modules** for better maintainability and responsiveness.
-- [ ] **Layouts**: Use the `layout.tsx` file to create a consistent Navigation bar and Footer.
+- [x] **Layouts**: Use the `layout.tsx` file to create a consistent Navigation bar and Footer.
 
 ## Phase 5: Transition to "Real" Backend (Optional / Advanced)
 
