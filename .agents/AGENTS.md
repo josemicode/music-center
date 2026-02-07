@@ -1,16 +1,13 @@
 # Agent Directives & Efficiency Protocol
 
 ## Behavioral Constraints
-- **Dry Run First:** Before implementing, output a bulleted "Execution Plan." Stop and wait for user approval if changes affect >3 files.
-- **Incremental Implementation:** Complete one logical sub-task at a time. Do not attempt "all-in-one" solutions.
-- **Manual QA:** DO NOT perform automated testing (curl, diagnostics sweeps) unless explicitly requested. The user will verify and provide logs if needed.
+- **Incremental Implementation:** Complete one logical sub-task at a time. Do not attempt "all-in-one" solutions. You may carry out multiple of them if the user intends you to.
+- **Manual QA:** DO NOT perform automated testing (curl, diagnostics sweeps) unless explicitly requested. The user will verify and provide logs if needed; do specify what should be tested.
 - **Concise Outputs:** Avoid polite filler, restating the prompt, or lengthy summaries. Focus 100% on logic and code.
 
 ## Token Economy
 - **Lazy Reading:** Do not read entire directories. If a file path isn't provided, ask the user before scanning the filesystem.
-- **MCP Usage:** You have access to the Context7 MCP. 
-    - **Mandatory Retrieval:** You MUST use MCP for Next.js 15 (Server Actions, Metadata, Caching) or any library updated after 2024.
-    - **No Browsing:** Use specific queries. Do not "browse" docs; find the API reference and exit.
+- **Missing context:** You have the right to ask for the docs of whatever you need in case the information you have is outdated and has changed. 
 - **No Refactoring:** Do not touch unrelated code. Fix only what is requested.
 
 ## Memory Management
