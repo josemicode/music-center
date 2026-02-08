@@ -43,10 +43,12 @@ export default function CreateArtistForm() {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Artist Name"
                 disabled={createMutation.isPending}
+                style={{ marginRight: "0.5rem", padding: "0.5rem" }}
             />
             <button
                 onClick={handleCreation}
                 disabled={createMutation.isPending}
+                style={{ padding: "0.5rem 1rem" }}
             >
                 {createMutation.isPending ? "Saving..." : "Create"}
             </button>

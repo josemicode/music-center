@@ -32,7 +32,7 @@ export default function RootLayout({
         <html lang="en">
             <body>
                 <nav className={styles.navContainer}>
-                    <div>Music Center</div>
+                    <div style={{ color: "white" }}>Music Center</div>
                     <ul className={styles.navLinks}>
                         <li>
                             <Link

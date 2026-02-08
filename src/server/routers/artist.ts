@@ -29,4 +29,16 @@ export const artistRouter = router({
             });
             return result.json();
         }),
+
+    delete: publicProcedure.input(z.string()).mutation(async (opts) => {
+        const { input } = opts;
+
+        const response = await fetch(`${url}/${input}`, {
+            method: "DELETE",
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to delete artist: ${response.statusText}`);
+        }
+        return response.json();
+    }),
 });
