@@ -7,15 +7,15 @@ import styles from "../styles/SearchAlbum.module.css";
 
 export default function SearchAlbum() {
     const [inputSearch, setInputSearch] = useState("");
-    const [lastSearchedId, setLastSearchedId] = useState<number | null>(null);
+    const [lastSearchedId, setLastSearchedId] = useState<string | null>(null);
 
     const rowQuery = trpc.album.getById.useQuery(lastSearchedId!, {
         enabled: lastSearchedId !== null,
     });
 
     const handleSearch = () => {
-        const id = parseInt(inputSearch);
-        if (!isNaN(id)) {
+        const id = inputSearch.trim();
+        if (id) {
             setLastSearchedId(id);
         }
     };
