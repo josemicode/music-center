@@ -9,7 +9,11 @@ import styles from "../styles/AlbumView.module.css";
 export type Album = {
     id: string;
     title: string;
-    artist_id: number;
+    artist_id: string;
+    artist?: {
+        id: string;
+        name: string;
+    } | null;
 };
 
 export default function AlbumView({ albumProp }: { albumProp: Album }) {
@@ -29,7 +33,7 @@ export default function AlbumView({ albumProp }: { albumProp: Album }) {
             // Optimistically update list
             utils.album.list.setData(undefined, (old: Album[] | undefined) =>
                 old
-                    ? old.filter((album) => parseInt(album.id) !== idToDelete)
+                    ? old.filter((album) => album.id !== idToDelete)
                     : [],
             );
 
@@ -53,7 +57,7 @@ export default function AlbumView({ albumProp }: { albumProp: Album }) {
         },
     });
 
-    const handleDeletion = (id: number) => {
+    const handleDeletion = (id: string) => {
         deleteMutation.mutate(id);
     };
 
@@ -65,10 +69,11 @@ export default function AlbumView({ albumProp }: { albumProp: Album }) {
         <>
             <div className={styles.albumCard}>
                 <h3>{albumProp.title}</h3>
+                <p>by {albumProp.artist?.name || 'Unknown Artist'}</p>
                 <p>ID: {albumProp.id}</p>
             </div>
             <button onClick={handleEdit}>Edit</button>
-            <button onClick={() => handleDeletion(parseInt(albumProp.id))}>
+            <button onClick={() => handleDeletion(albumProp.id)}>
                 Delete
             </button>
 
