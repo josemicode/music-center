@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { trpc } from "@/utils/trpc";
 import { Album } from "./AlbumView";
+import { Artist } from "./ArtistView";
 import toast from "react-hot-toast";
 import styles from "../styles/EditAlbumModal.module.css";
 
@@ -22,7 +23,10 @@ export default function EditAlbumModal({
     const utils = trpc.useUtils();
 
     const [title, setTitle] = useState(albumProp.title);
+    const [selectedArtistId, setSelectedArtistId] = useState(albumProp.artist_id);
 
+    const { data: artists, isLoading: artistsLoading } = trpc.artist.list.useQuery();
+    
     const updateMutation = trpc.album.updateById.useMutation({
         onSuccess: () => {
             utils.album.invalidate();
@@ -36,7 +40,7 @@ export default function EditAlbumModal({
         updateMutation.mutate({
             id: albumProp.id,
             title: title,
-            artist_id: albumProp.artist_id,
+            artist_id: selectedArtistId,
         });
     };
 
@@ -56,6 +60,26 @@ export default function EditAlbumModal({
                             onChange={(e) => setTitle(e.target.value)}
                             className={styles.inputField}
                         />
+                    </label>
+                    <label>
+                        Artist:
+                        <select
+                            value={selectedArtistId}
+                            onChange={(e) => setSelectedArtistId(e.target.value)}
+                            disabled={artistsLoading || !artists?.length}
+                            className={styles.inputField}
+                        >
+                            <option value="">-- Select an artist --</option>
+                            {artists?.map((artist: Artist) => (
+                                <option key={artist.id} value={artist.id}>
+                                    {artist.name}
+                                </option>
+                            ))}
+                        </select>
+                        {artistsLoading && <span>Loading artists...</span>}
+                        {!artistsLoading && !artists?.length && (
+                            <span>No artists available.</span>
+                        )}
                     </label>
                     <div className={styles.buttonGroup}>
                         <button
