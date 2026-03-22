@@ -19,8 +19,21 @@ export const albumRouter = router({
         // return result.rows;
 
         // Testing with fake json server
-        const result = await fetch(url).then((r) => r.json());
-        return result;
+        const [albums, artists] = await Promise.all([
+            fetch(url).then((r) => r.json()),
+            fetch("http://localhost:3000/artists").then((r) => r.json()),
+        ]);
+
+        // Join albums with artists
+        const albumsWithArtists = albums.map((album: any) => {
+            const artist = artists.find((a: any) => a.id === album.artist_id);
+            return {
+                ...album,
+                artist: artist || null,
+            };
+        });
+
+        return albumsWithArtists;
     }),
 
     /**
@@ -33,7 +46,7 @@ export const albumRouter = router({
             z.object({
                 id: z.string().min(1),
                 title: z.string().min(1),
-                artist_id: z.number(),
+                artist_id: z.string().min(1),
             }),
         )
         .mutation(async (opts) => {
@@ -57,7 +70,7 @@ export const albumRouter = router({
      * Equivalent to: GET /api/albums/:id
      */
     getById: publicProcedure
-        .input(z.number()) // The input is just a number
+        .input(z.string()) // The input is just a string
         .query(async (opts) => {
             const { input } = opts;
 
@@ -65,7 +78,22 @@ export const albumRouter = router({
             if (!response.ok) {
                 return null;
             }
-            return response.json();
+            const album = await response.json();
+            
+            // Fetch artist for this album
+            const artistResponse = await fetch(`http://localhost:3000/artists/${album.artist_id}`);
+            if (artistResponse.ok) {
+                const artist = await artistResponse.json();
+                return {
+                    ...album,
+                    artist,
+                };
+            }
+            
+            return {
+                ...album,
+                artist: null,
+            };
         }),
 
     /**
@@ -78,7 +106,7 @@ export const albumRouter = router({
             z.object({
                 id: z.string().min(1),
                 title: z.string().min(1),
-                artist_id: z.number().optional(),
+                artist_id: z.string().min(1).optional(),
             }),
         )
         .mutation(async ({ input }) => {
@@ -98,10 +126,10 @@ export const albumRouter = router({
      * 5. A DELETE Operation
      * Equivalent to: DELETE /api/albums/:id
      */
-    delete: publicProcedure.input(z.number()).mutation(async (opts) => {
+    delete: publicProcedure.input(z.string()).mutation(async (opts) => {
         const { input } = opts;
 
-        const result = await fetch(url + "/" + input.toString(), {
+        const result = await fetch(url + "/" + input, {
             method: "DELETE",
         });
         return result;
